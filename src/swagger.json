@@ -1,0 +1,192 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Entregable Final",
+    "description": "API de ecommerce como trabajo final del módulo de backend para Academlo.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Endpoint para registrar un usuario en el ecommerce",
+        "description": "Para registrarse es necesario proporcionar un email válido, una contraseña y un nombre de usuario. Estos campos son obligatorios.",
+        "tags": ["users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/register" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "created"
+          },
+          "400": {
+            "description": "Faltan propiedades en el body de la petición.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorName": {
+                      "type": "string",
+                      "example": "Validation error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "Username es obligatorio"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "sumamry": "Endpoint para ingresar/loggear a un usuario en el ecommerce.",
+        "description": "Para poder loggear a un usuario necesitas enviar un email y contraseña válidos.",
+        "tags": ["users"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "smavilp@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "sma12345"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "400": {
+            "description": "Email o contraseña inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorName": {
+                      "type": "string",
+                      "example": "Validation error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "email inválido"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/update/:id": {
+      "put": {
+        "tags": ["users"],
+        "summary": "Actualiza el username y avatar del usuario",
+        "description": "Para actualizar el usuario necesitas mandar en el body el username y/o el avatar y como path param el id de usuario que se va a actulizar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "requires": true,
+            "description": "Id del usuario a actualizar"
+          }
+        ],
+        "requestBody": {
+          "description": "Los campos que pueden ser actualizados son el username y el avatar",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "sma0707"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "example": "http://mipicture.com/profile.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "400": {
+            "description": "Error en la actualización.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errorName": {
+                      "type": "string",
+                      "example": "Validation error"
+                    },
+                    "message": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "el campo avatar debe ser un string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "register": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "smavilp"
+          },
+          "email": {
+            "type": "string",
+            "example": "smavilp@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "sma12345"
+          }
+        }
+      }
+    }
+  }
+}
